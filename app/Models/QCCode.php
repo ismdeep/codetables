@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string weight_enumerator
  * @property int dual_n
  * @property int dual_k
+ * @property int dual_d
  * @property string dual_generator_matrix
  * @property string dual_weight_enumerator
  * @property DateTime created_at

@@ -25,6 +25,7 @@ class CreateQCCodesTable extends Migration {
 
             $table->integer('dual_n')->nullable(true);
             $table->integer('dual_k')->nullable(true);
+            $table->integer('dual_d')->nullable(true);
             $table->text('dual_generator_matrix')->nullable(true);
             $table->text('dual_weight_enumerator')->nullable(true);
 

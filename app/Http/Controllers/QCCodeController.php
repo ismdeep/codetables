@@ -85,7 +85,7 @@ class QCCodeController extends Controller {
 
         $code = QCCode::where('code', $code_str)->first();
         if ($code) {
-            return ['code' => 500, 'msg' => 'Already exists'];
+            return ['code' => 500, 'msg' => 'Already exists', 'data' => $code];
         }
 
         $code = new QCCode();
@@ -95,7 +95,7 @@ class QCCodeController extends Controller {
         $code->n = $this->req->has('n') ? $this->req->get('n') : $k * $p;
         $code->save();
 
-        return ['code' => 0, 'msg' => 'Saved'];
+        return ['code' => 0, 'msg' => 'Saved', 'data' => $code];
     }
 
     /**
@@ -106,7 +106,7 @@ class QCCodeController extends Controller {
      */
     public function update_detail($id): array {
         /* @var $code QCCode */
-        $code = QCCode::where('id', $id);
+        $code = QCCode::where('id', $id)->first();
         if (!$code) {
             return ['code' => 404, 'msg' => 'Not Found'];
         }
@@ -129,6 +129,10 @@ class QCCodeController extends Controller {
 
         if ($this->req->has('dual_k')) {
             $code->dual_k = $this->req->get('dual_k');
+        }
+
+        if ($this->req->has('dual_d')) {
+            $code->dual_d = $this->req->get('dual_d');
         }
 
         if ($this->req->has('dual_generator_matrix')) {
