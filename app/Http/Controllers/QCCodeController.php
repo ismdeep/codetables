@@ -84,7 +84,7 @@ class QCCodeController extends Controller {
             return ['code' => 500, 'msg' => 'Args Error. [k,p,code] are required.'];
         }
 
-        $code = QCCode::where('code', $code_str)->first();
+        $code = QCCode::where('k', $k)->where('p', $p)->where('code', $code_str)->first();
         if ($code) {
             return ['code' => 500, 'msg' => 'Already exists', 'data' => $code];
         }
