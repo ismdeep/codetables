@@ -24,3 +24,7 @@ Route::post('/codes',      'QCCodeController@add_code');
 Route::get ('/codes/{id}', 'QCCodeController@show_detail');
 Route::put ('/codes/{id}', 'QCCodeController@update_detail');
 Route::get ('/dual-codes/best-table', 'QCCodeController@get_dual_best_table');
+
+Route::get ('/login', 'LoginController@login');
+Route::get ('/logout', 'LoginController@logout');
+Route::get ('/login-status', 'LoginController@login_status');

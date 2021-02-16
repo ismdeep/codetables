@@ -6,6 +6,7 @@ use App\Models\QCCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Env;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class QCCodeController extends Controller {
 
@@ -14,10 +15,24 @@ class QCCodeController extends Controller {
     public function __construct(Request $request) {
         $this->req = $request;
 
-        if (!$this->req->has('token') || $this->req->get('token') != Env::get('TOKEN')) {
-            response()->json(['code' => 500, 'msg' => 'Access Denied.'])->send();
-            die();
-        }
+        $this->middleware(function($request, $next){
+            $access_flag = false;
+
+            if (Session::has('login') && Session::get('login')) {
+                $access_flag = true;
+            }
+
+            if ($this->req->has('token') && $this->req->get('token') == Env::get('TOKEN')) {
+                $access_flag = true;
+            }
+
+            if (!$access_flag) {
+                response()->json(['code' => 500, 'msg' => 'Access Denied.', 'flag' => $access_flag])->send();
+                die();
+            }
+
+            return $next($request);
+        });
     }
 
     /**
