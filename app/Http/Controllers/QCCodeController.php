@@ -15,7 +15,7 @@ class QCCodeController extends Controller {
     public function __construct(Request $request) {
         $this->req = $request;
 
-        $this->middleware(function($request, $next){
+        $this->middleware(function ($request, $next) {
             $access_flag = false;
 
             if (Session::has('login') && Session::get('login')) {
@@ -172,5 +172,15 @@ class QCCodeController extends Controller {
     public function get_dual_best_table(): array {
         $results = QCCode::groupBy(['k', 'p', 'dual_n', 'dual_k'])->get(['k', 'p', 'dual_n', 'dual_k', DB::raw('max(dual_d) as max_dual_d')]);
         return ['code' => 0, 'data' => $results];
+    }
+
+    /**
+     * 获取 pending 列表
+     *
+     * @return array
+     */
+    public function get_dual_pending_list(): array {
+        $codes = QCCode::where('status', 0)->limit(10)->get();
+        return ['code' => 0, 'data' => $codes];
     }
 }
