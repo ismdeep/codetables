@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\QCCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Env;
+use Illuminate\Support\Facades\DB;
 
 class QCCodeController extends Controller {
 
@@ -146,5 +147,15 @@ class QCCodeController extends Controller {
         $code->save();
 
         return ['code' => 0, 'msg' => 'Updated'];
+    }
+
+    /**
+     * 获得最好的
+     *
+     * @return array
+     */
+    public function get_dual_best_table(): array {
+        $results = QCCode::groupBy(['k', 'p', 'dual_n', 'dual_k'])->get(['k', 'p', 'dual_n', 'dual_k', DB::raw('max(dual_d) as max_dual_d')]);
+        return ['code' => 0, 'data' => $results];
     }
 }
