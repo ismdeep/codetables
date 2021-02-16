@@ -159,6 +159,10 @@ class QCCodeController extends Controller {
             $code->dual_weight_enumerator = $this->req->get('dual_weight_enumerator');
         }
 
+        if ($code->dual_d) {
+            $code->status = QCCode::STATUS_DONE;
+        }
+
         $code->save();
 
         return ['code' => 0, 'msg' => 'Updated'];
@@ -181,6 +185,11 @@ class QCCodeController extends Controller {
      */
     public function get_dual_pending_list(): array {
         $codes = QCCode::where('status', 0)->limit(10)->get();
+        foreach ($codes as $code) {
+            /* @var $code QCCode */
+            $code->status = QCCode::STATUS_PROCESSING;
+            $code->save();
+        }
         return ['code' => 0, 'data' => $codes];
     }
 }

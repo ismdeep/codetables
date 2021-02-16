@@ -22,10 +22,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property int dual_d
  * @property string dual_generator_matrix
  * @property string dual_weight_enumerator
+ * @property int status
  * @property DateTime created_at
  * @property DateTime updated_at
  *
  */
 class QCCode extends Model {
+
+    const STATUS_PENDING = 0;
+    const STATUS_PROCESSING = 1;
+    const STATUS_DONE = 2;
 
 }
