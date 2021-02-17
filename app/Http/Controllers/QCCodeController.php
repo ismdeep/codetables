@@ -184,7 +184,14 @@ class QCCodeController extends Controller {
      * @return array
      */
     public function get_dual_pending_list(): array {
-        $codes = QCCode::where('status', 0)->limit(10)->get();
+        $query_size = 10;
+        if ($this->req->has('query_size')) {
+            $query_size = $this->req->get('query_size');
+        }
+        if ($query_size > 1000) {
+            $query_size = 1000;
+        }
+        $codes = QCCode::where('status', 0)->limit($query_size)->get();
         foreach ($codes as $code) {
             /* @var $code QCCode */
             $code->status = QCCode::STATUS_PROCESSING;
