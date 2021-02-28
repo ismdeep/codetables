@@ -86,7 +86,7 @@ class QCCodeController extends Controller {
      * @return array
      */
     public function show_code_list_by_k_p_d($k, $p, $d): array {
-        $codes = QCCode::where('k', $k)->where('p', $p)->where('d', $d)->page();
+        $codes = QCCode::where('k', $k)->where('p', $p)->where('d', $d)->get();
         return ['code' => 0, 'data' => $codes];
     }
 
