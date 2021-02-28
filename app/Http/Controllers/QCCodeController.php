@@ -75,6 +75,20 @@ class QCCodeController extends Controller {
         return ['code' => 0, 'data' => $codes];
     }
 
+    /**
+     * 根据 k,p,d 列出 QC 码
+     *
+     * GET -> `/codes/k/{k}/p/{p}/d/{d}`
+     *
+     * @param $k
+     * @param $p
+     * @param $d
+     * @return array
+     */
+    public function show_code_list_by_k_p_d($k, $p, $d): array {
+        $codes = QCCode::where('k', $k)->where('p', $p)->where('d', $d)->page();
+        return ['code' => 0, 'data' => $codes];
+    }
 
     /**
      * 查看 QC 码详情
