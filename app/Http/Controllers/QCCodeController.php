@@ -38,6 +38,8 @@ class QCCodeController extends Controller {
     /**
      * 列出所有的 k
      *
+     * GET -> `/codes`
+     *
      * @return array
      */
     public function show_k_list(): array {
@@ -49,6 +51,8 @@ class QCCodeController extends Controller {
     /**
      * 根据 k 列出所有的 p
      *
+     * GET -> `/codes/k/{k}`
+     *
      * @param $k
      * @return array
      */
@@ -59,6 +63,8 @@ class QCCodeController extends Controller {
 
     /**
      * 根据 k,p 列出 QC 码
+     *
+     * GET -> `/codes/k/{k}/p/{p}`
      *
      * @param $k
      * @param $p
@@ -72,6 +78,8 @@ class QCCodeController extends Controller {
 
     /**
      * 查看 QC 码详情
+     *
+     * GET -> `/codes/{id}`
      *
      * @param $id
      * @return array
@@ -87,6 +95,13 @@ class QCCodeController extends Controller {
 
     /**
      * 添加 QC 码
+     *
+     * POST -> `/codes`
+     *
+     * - k
+     * - p
+     * - code: 码字表示
+     * - n: optional
      *
      * @return array
      */
@@ -116,6 +131,17 @@ class QCCodeController extends Controller {
 
     /**
      * 更新详情
+     *
+     * PUT -> `/codes/{id}`
+     *
+     * - d
+     * - generator_matrix
+     * - weight_enumerator
+     * - dual_n
+     * - dual_k
+     * - dual_d
+     * - dual_generator_matrix
+     * - dual_weight_enumerator
      *
      * @param $id
      * @return array
@@ -169,17 +195,35 @@ class QCCodeController extends Controller {
     }
 
     /**
-     * 获得最好的
+     * 获取最好的码字列表
+     *
+     * GET -> `/codes/best-table`
+     *
+     * @return array
+     */
+    public function get_best_table(): array {
+        $results = QCCode::groupBy(['k', 'p'])->get(['k', 'p', DB::raw('max(d) as max_d')]);
+        return ['code' => 0, 'data' => $results];
+    }
+
+    /**
+     * 获得最好的对偶码列表
+     *
+     * GET -> `/dual-codes/best-table`
      *
      * @return array
      */
     public function get_dual_best_table(): array {
-        $results = QCCode::groupBy(['k', 'p', 'dual_n', 'dual_k'])->get(['k', 'p', 'dual_n', 'dual_k', DB::raw('max(dual_d) as max_dual_d')]);
+        $results = QCCode::groupBy(['k', 'p'])->get(['k', 'p', DB::raw('max(dual_d) as max_dual_d')]);
         return ['code' => 0, 'data' => $results];
     }
 
     /**
      * 获取 pending 列表
+     *
+     * GET -> `/codes/pending-list`
+     *
+     * - query_size
      *
      * @return array
      */
