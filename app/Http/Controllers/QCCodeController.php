@@ -233,6 +233,22 @@ class QCCodeController extends Controller {
     }
 
     /**
+     *
+     * 根据 k,p,d 参数
+     *
+     *
+     *
+     * @param $k
+     * @param $p
+     * @param $d
+     * @return array
+     */
+    public function get_dual_codes_by_kpd($k, $p, $d): array {
+        $codes = QCCode::where('k', $k)->where('p', $p)->where('dual_d', $d)->get();
+        return ['code' => 0, 'data' => $codes];
+    }
+
+    /**
      * 获取 pending 列表
      *
      * GET -> `/codes/pending-list`
